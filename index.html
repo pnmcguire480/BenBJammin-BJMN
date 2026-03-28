@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BenBJammin (BJMN) - Token Ideation</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  :root {
+    --bg: #0a0a0f;
+    --surface: #12121a;
+    --surface2: #1a1a2e;
+    --border: #2a2a3e;
+    --accent: #8b5cf6;
+    --accent2: #06b6d4;
+    --accent3: #f59e0b;
+    --accent4: #10b981;
+    --accent5: #ef4444;
+    --text: #e2e8f0;
+    --text-dim: #94a3b8;
+    --text-bright: #f8fafc;
+    --glow: rgba(139, 92, 246, 0.15);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Space Grotesk', sans-serif;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  .noise {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 30px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* HEADER */
+  .header {
+    text-align: center;
+    margin-bottom: 60px;
+    padding: 50px 30px;
+    background: linear-gradient(135deg, rgba(139,92,246,0.08), rgba(6,182,212,0.08));
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(circle at 30% 50%, rgba(139,92,246,0.06) 0%, transparent 50%),
+                radial-gradient(circle at 70% 50%, rgba(6,182,212,0.06) 0%, transparent 50%);
+    animation: drift 20s ease-in-out infinite;
+  }
+
+  @keyframes drift {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(-5%, 3%); }
+  }
+
+  .header h1 {
+    font-size: 3.2em;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    position: relative;
+    background: linear-gradient(135deg, #8b5cf6, #06b6d4, #f59e0b);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 8px;
+  }
+
+  .header .symbol {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.1em;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    position: relative;
+    margin-bottom: 16px;
+  }
+
+  .header .subtitle {
+    font-size: 1.05em;
+    color: var(--text-dim);
+    max-width: 600px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .specs-bar {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-top: 28px;
+    position: relative;
+  }
+
+  .spec-chip {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 6px 18px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8em;
+    color: var(--text-dim);
+  }
+
+  .spec-chip strong {
+    color: var(--accent2);
+  }
+
+  /* INSTRUCTIONS */
+  .instructions {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent3);
+    border-radius: 12px;
+    padding: 24px 30px;
+    margin-bottom: 50px;
+  }
+
+  .instructions h2 {
+    font-size: 1.15em;
+    color: var(--accent3);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .instructions p {
+    color: var(--text-dim);
+    font-size: 0.95em;
+  }
+
+  .instructions .legend {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 14px;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85em;
+    color: var(--text-dim);
+  }
+
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* SECTION */
+  .section {
+    margin-bottom: 50px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 24px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3em;
+    flex-shrink: 0;
+  }
+
+  .section-icon.tokenomics { background: rgba(139,92,246,0.15); }
+  .section-icon.community { background: rgba(6,182,212,0.15); }
+  .section-icon.architecture { background: rgba(16,185,129,0.15); }
+
+  .section-header h2 {
+    font-size: 1.4em;
+    font-weight: 600;
+    color: var(--text-bright);
+  }
+
+  .section-header .count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75em;
+    color: var(--text-dim);
+    background: var(--surface2);
+    padding: 2px 10px;
+    border-radius: 100px;
+  }
+
+  /* IDEA CARD */
+  .ideas-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .idea-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px 28px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    position: relative;
+    page-break-inside: avoid;
+  }
+
+  .idea-card:hover {
+    border-color: var(--accent);
+    box-shadow: 0 0 30px var(--glow);
+  }
+
+  .idea-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 12px;
+  }
+
+  .idea-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75em;
+    font-weight: 500;
+    color: var(--bg);
+    background: var(--accent);
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .idea-card[data-category="tokenomics"] .idea-number { background: var(--accent); }
+  .idea-card[data-category="community"] .idea-number { background: var(--accent2); }
+  .idea-card[data-category="architecture"] .idea-number { background: var(--accent4); }
+
+  .idea-title {
+    font-size: 1.15em;
+    font-weight: 600;
+    color: var(--text-bright);
+    flex: 1;
+  }
+
+  .complexity-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7em;
+    padding: 3px 10px;
+    border-radius: 100px;
+    flex-shrink: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .complexity-badge.low { background: rgba(16,185,129,0.15); color: #34d399; }
+  .complexity-badge.medium { background: rgba(245,158,11,0.15); color: #fbbf24; }
+  .complexity-badge.high { background: rgba(239,68,68,0.15); color: #f87171; }
+
+  .idea-desc {
+    color: var(--text-dim);
+    font-size: 0.92em;
+    line-height: 1.65;
+    margin-bottom: 16px;
+  }
+
+  .idea-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+
+  .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7em;
+    padding: 2px 10px;
+    border-radius: 100px;
+    background: var(--surface2);
+    color: var(--text-dim);
+    border: 1px solid var(--border);
+  }
+
+  /* VOTE ROW */
+  .vote-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+  }
+
+  .vote-label {
+    font-size: 0.8em;
+    color: var(--text-dim);
+    font-weight: 500;
+    min-width: 80px;
+  }
+
+  .vote-options {
+    display: flex;
+    gap: 8px;
+  }
+
+  .vote-btn {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75em;
+    padding: 5px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .vote-btn:hover { border-color: var(--accent); color: var(--text-bright); }
+  .vote-btn.yes:hover, .vote-btn.yes.active { background: rgba(16,185,129,0.15); border-color: #34d399; color: #34d399; }
+  .vote-btn.maybe:hover, .vote-btn.maybe.active { background: rgba(245,158,11,0.15); border-color: #fbbf24; color: #fbbf24; }
+  .vote-btn.no:hover, .vote-btn.no.active { background: rgba(239,68,68,0.15); border-color: #f87171; color: #f87171; }
+
+  .notes-input {
+    flex: 1;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.8em;
+    color: var(--text);
+    outline: none;
+    min-width: 120px;
+  }
+
+  .notes-input:focus { border-color: var(--accent); }
+  .notes-input::placeholder { color: #4a4a6a; }
+
+  /* SUMMARY SECTION */
+  .summary-section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 30px;
+    margin-top: 50px;
+    page-break-inside: avoid;
+  }
+
+  .summary-section h2 {
+    font-size: 1.3em;
+    color: var(--text-bright);
+    margin-bottom: 20px;
+  }
+
+  .summary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .summary-box {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+  }
+
+  .summary-box h3 {
+    font-size: 0.9em;
+    color: var(--accent2);
+    margin-bottom: 10px;
+  }
+
+  .summary-textarea {
+    width: 100%;
+    min-height: 80px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.85em;
+    color: var(--text);
+    resize: vertical;
+    outline: none;
+  }
+
+  .summary-textarea:focus { border-color: var(--accent); }
+  .summary-textarea::placeholder { color: #4a4a6a; }
+
+  /* FOOTER */
+  .footer {
+    text-align: center;
+    margin-top: 50px;
+    padding: 24px;
+    color: var(--text-dim);
+    font-size: 0.8em;
+    border-top: 1px solid var(--border);
+  }
+
+  .footer .brand {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--accent);
+  }
+
+  /* PRINT STYLES */
+  @media print {
+    body { background: #fff; color: #1a1a2e; }
+    .noise { display: none; }
+    .container { padding: 20px; }
+    .header { background: #f5f3ff; border-color: #e2e8f0; }
+    .header h1 { -webkit-text-fill-color: #4c1d95; background: none; }
+    .header .symbol { color: #6d28d9; }
+    .idea-card { border-color: #e2e8f0; background: #fff; break-inside: avoid; }
+    .idea-card:hover { box-shadow: none; }
+    .section-header { border-color: #e2e8f0; }
+    .vote-btn { border-color: #d1d5db; }
+    .notes-input, .summary-textarea { border-color: #d1d5db; background: #f9fafb; }
+    .summary-section { background: #fff; border-color: #e2e8f0; }
+    .summary-box { background: #f9fafb; }
+    .instructions { border-color: #e2e8f0; border-left-color: #f59e0b; background: #fffbeb; }
+    .spec-chip { background: #f5f3ff; border-color: #e2e8f0; }
+    .tag { background: #f1f5f9; border-color: #e2e8f0; }
+  }
+</style>
+</head>
+<body>
+<div class="noise"></div>
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="header">
+    <h1>BenBJammin</h1>
+    <div class="symbol">$BJMN</div>
+    <div class="subtitle">Token Ideation Deck &mdash; 30 ideas across tokenomics, community, and architecture. Pick your favorites and send back your votes.</div>
+    <div class="specs-bar">
+      <span class="spec-chip"><strong>Solana</strong> Devnet</span>
+      <span class="spec-chip"><strong>10M</strong> Supply Cap</span>
+      <span class="spec-chip"><strong>2.5%</strong> Transfer Tax</span>
+      <span class="spec-chip"><strong>Token-2022</strong> Standard</span>
+    </div>
+  </div>
+
+  <!-- INSTRUCTIONS -->
+  <div class="instructions">
+    <h2>How to Vote</h2>
+    <p>For each idea, click a vote button or circle/highlight your choice if printing. Add notes for anything you want to expand on or modify. Fill out the summary at the bottom with your overall thoughts.</p>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#34d399"></div> YES &mdash; Build this</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#fbbf24"></div> MAYBE &mdash; Interested, needs discussion</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#f87171"></div> PASS &mdash; Skip it</div>
+    </div>
+  </div>
+
+  <!-- SECTION 1: TOKENOMICS -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon tokenomics">&#9670;</div>
+      <h2>Tokenomics &amp; DeFi</h2>
+      <span class="count">10 ideas</span>
+    </div>
+    <div class="ideas-grid">
+
+      <div class="idea-card" data-category="tokenomics">
+        <div class="idea-top">
+          <div class="idea-number">01</div>
+          <div class="idea-title">Harmonic Burn Curve</div>
+          <span class="complexity-badge medium">Medium</span>
+        </div>
+        <div class="idea-desc">Every transfer burns an additional amount on top of the 2.5% tax, but the burn rate follows a harmonic decay: <strong>burn% = 0.5% &times; (current_supply / 10M)</strong>. As supply drops, burns slow asymptotically toward zero, creating a natural supply floor around 2M tokens. Early transfers are aggressively deflationary; late-stage is stable.</div>
+        <div class="idea-tags"><span class="tag">deflationary</span><span class="tag">transfer-hook</span><span class="tag">supply-dynamics</span></div>
+        <div class="vote-row">
+          <span class="vote-label">Your vote:</span>
+          <div class="vote-options">
+            <button class="vote-btn yes" onclick="vote(this)">YES</button>
+            <button class="vote-btn maybe" onclick="vote(this)">MAYBE</button>
+            <button class="vote-btn no" onclick="vote(this)">PASS</button>
+          </div>
+          <input class="notes-input" placeholder="Notes..." />
+        </div>
+      </div>
+
+      <div class="idea-card" data-category="tokenomics">
+        <div class="idea-top">
+          <div class="idea-number">02</div>
+          <div class="idea-title">Tax Router (Transfer Hook)</div>
+          <span class="complexity-badge high">High</span>
+        </div>
+        <div class="idea-desc">A transfer hook dynamically routes the 2.5% tax to different destinations based on on-chain state. Treasury below threshold? 100% goes there. LP depth too low? Feeds liquidity incentives. Otherwise, buyback-and-burn. The tax becomes a <strong>self-balancing economic system</strong> rather than a flat drain.</div>
+        <div class="idea-tags"><span class="tag">transfer-hook</span><span class="tag">CPI</span><span class="tag">auto-rebalance</span></div>
+        <div class="vote-row">
+          <span class="vote-label">Your vote:</span>
+          <div class="vote-options">
+            <button class="vote-btn yes" onclick="vote(this)">YES</button>
+            <button class="vote-btn maybe" onclick="vote(this)">MAYBE</button>
+            <button class="vote-btn no" onclick="vote(this)">PASS</button>
+          </div>
+          <input class="notes-input" placeholder="Notes..." />
+        </div>
+      </div>
+
+      <div class="idea-card" data-category="tokenomics">
+        <div class="idea-top">
+          <div class="idea-number">03</div>
+          <div class="idea-title">Epoch-Gated Minting + Halving</div>
+          <span class="complexity-badge medium">Medium</span>
+        </div>
+        <div class="idea-desc">New BJMN can only be minted once per Solana epoch (~2 days on devnet). The mintable amount halves every N epochs &mdash; 500K, then 250K, then 125K... Bitcoin-like issuance tied to Solana's own clock. Minting requires burning a proof-of-participation NFT or staking a minimum amount.</div>
+        <div class="idea-tags"><span class="tag">halving</span><span class="tag">epoch</span><span class="tag">scarcity</span></div>
+        <div class="vote-row">
+          <span class="vote-label">Your vote:</span>
+          <div class="vote-options">
+            <button class="vote-btn yes" onclick="vote(this)">YES</button>
+            <button class="vote-btn maybe" onclick="vote(this)">MAYBE</button>
+            <button class="vote-btn no" onclick="vote(this)">PASS</button>
+          </div>
+          <input class="notes-input" placeholder="Notes..." />
+        </div>
+      </div>
+
+      <div class="idea-card" data-category="tokenomics">
+        <div class="idea-top">
+          <div class="idea-number">04</div>
+          <div class="idea-title">Bonding Curve Market Maker</div>
+          <span class="complexity-badge high">High</span>
+        </div>
+        <div class="idea-desc">Instead of listing on a DEX, a custom bonding curve program acts as the sole AMM. <strong>Price = k &times; supply&sup2;</strong>. Buying mints new tokens (up to 10M cap), selling burns them. No impermanent loss, guaranteed liquidity at every price point. The 2.5% fee still applies on every trade.</div>
+        <div class="idea-tags"><span class="tag">bonding-curve</span><span class="tag">AMM</span><span class="tag">no-DEX</span></div>
+        <div class="vote-row">
+          <span class="vote-label">Your vote:</span>
+          <div class="vote-options">
+            <button class="vote-btn yes" onclick="vote(this)">YES</button>
+            <button class="vote-btn maybe" onclick="vote(this)">MAYBE</button>
+            <button class="vote-btn no" onclick="vote(this)">PASS</button>
+          </div>
+          <input class="notes-input" placeholder="Notes..." />
+        </div>
+      </div>
+
+      <div class="idea-card" data-category="tokenomics">
+        <div class="idea-top">
+          <div class="idea-number">05</div>
+          <div class="idea-title">Dynamic Velocity Fee</div>
+          <span class="complexity-badge high">High</span>
+        </div>
+        <div class="idea-desc">Replace the flat 2.5% fee with a dynamic rate that rises during high-velocity periods (panic selling) and falls during quiet ones. Formula: <strong>fee = 1% + (1.5% &times; velocity / target)</strong>, clamped between 0.5% and 5%. An automatic economic stabilizer.</div>
+        <div class="idea-tags"><span class="tag">dynamic-fee</span><span class="tag">stabilizer</span><span class="tag">transfer-hook</span></div>
+        <div class="vote-row">
+          <span class="vote-label">Your vote:</span>
+          <div class="vote-options">
+            <button class="vote-btn yes" onclick="vote(this)">YES</button>
+            <button class="vote-btn maybe" onclick="vote(this)">MAYBE</button>
+            <button class="vote-btn no" onclick="vote(this)">PASS</button>
+          </div>
+          <input class="notes-input" placeholder="Notes..." />
+        </div>
+      </div>
+
+      <div class="idea-card" data-category="tokenomics">
+        <div class="idea-top">
+          <div class="idea-number">06</div>
+          <div class="idea-title">Tax Revenue Vault</div>
+          <span class="complexity-badge high">V.High</span>
+        </div>
+        <div class="idea-desc">A vault program collects all 2.5% tax revenue and auto-deploys it: 40% to BJMN/SOL LP, 30% to buyback-and-burn, 20% to staker rewards, 10% to a dev fund. Rebalances each epoch based on performance scoring. Vault shares are tokenized &mdash; anyone can hold a claim on the revenue stream.</div>
+        <div class="idea-tags"><span class="tag">vault</span><span class="tag">yield</span><span class="tag">auto-deploy</span></div>
+        <div class="vote-row">
+          <span class="vote-label">Your vote:</span>
+          <div class="vote-options">
+            <button class="vote-btn yes" onclick="vote(this)">YES</button>
+            <button class="vote-btn maybe" onclick="vote(this)">MAYBE</button>
+            <button class="vote-btn no" onclick="vote(this)">PASS</button>
+          </div>
+          <input class="notes-input" placeholder="Notes..." />
+        </div>
+      </div>
+
+      <div class="idea-card" data-category="tokenomics">
+        <div class="idea-top">
+          <div class="idea-number">07</div>
+          <div class="idea-title">Burn-to-Mint "SMOKE" Token</div>
+          <span class="complexity-badge medium">Medium</span>
+        </div>
+        <div class="idea-desc">Burning BJMN mints a derivative governance token called SMOKE at a ratio that worsens over time (Day 1: 1:100, Day 30: 1:50, Day 90: 1:10). SMOKE has no transfer fee and is used only for governance weight and premium access. <strong>Irreversible commitment &mdash; sacrifice liquidity for power.</strong></div>
+        <div class="idea-tags"><span class="tag">derivative</span><span class="tag">governance</span><span class="tag">burn-to-mint</span></div>
+        <div class="vote-row">
+          <span class="vote-label">Your vote:</span>
+          <div class="vote-options">
+            <button class="vote-btn yes" onclick="vote(this)">YES</button>
+            <button class="vote-btn maybe" onclick="vote(this)">MAYBE</button>
+            <button class="vote-btn no" onclick="vote(this)">PASS</button>
+          </div>
+          <input class="notes-input" placeholder="Notes..." />
+        </div>
+      </div>
+
+      <div class="idea-card" data-category="tokenomics">
+        <div class="idea-top">
+          <div class="idea-number">08</div>
+          <div class="idea-title">Flash Loan Governance</div>
+          <span class="complexity-badge high">High</span>
+        </div>
+        <div class="idea-desc">Governance proposals can be voted on using flash-borrowed tokens, but flash-loan votes cost a non-refundable fee proportional to the borrowed amount. Staked (committed) token votes are free. Creates a two-tier system where <strong>conviction is cheap and mercenary capital is expensive.</strong></div>
+        <div class="idea-tags"><span class="tag">flash-loan</span><span class="tag">governance</span><span class="tag">anti-attack</span></div>
+        <div class="vote-row">
+          <span class="vote-label">Your vote:</span>
+          <div class="vote-options">
+            <button class="vote-btn yes" onclick="vote(this)">YES</button>
+            <button class="vote-btn maybe" onclick="vote(this)">MAYBE</button>
+            <button class="vote-btn no" onclick="vote(this)">PASS</button>
+          </div>
+          <input class="notes-input" placeholder="Notes..." />
+        </div>
+      </div>
+
+      <div class="idea-card" data-category="tokenomics">
+        <div class="idea-top">
+          <div class="idea-number">09</div>
+          <div class="idea-title">Volume Knob (Progressive Tax)</div>
+          <span class="complexity-badge medium">Medium</span>
+        </div>
+        <div class="idea-desc">Transfer tax scales with transaction size relative to the pool. Under 0.1%: base 2.5%. Up to 1%: 5%. Up to 5%: 10%. Above 5%: 15%. All excess tax above 2.5% flows to a "Crowd Surfing" reward pool for small holders. <strong>Whales can trade, but manipulation is expensive.</strong></div>
+        <div class="idea-tags"><span class="tag">anti-whale</span><span class="tag">progressive</span><span class="tag">redistribution</span></div>
+        <div class="vote-row">
+          <span class="vote-label">Your vote:</span>
+          <div class="vote-options">
+            <button class="vote-btn yes" onclick="vote(this)">YES</button>
+            <button class="vote-btn maybe" onclick="vote(this)">MAYBE</button>
+            <button class="vote-btn no" onclick="vote(this)">PASS</button>
+          </div>
+          <input class="notes-input" placeholder="Notes..." />
+        </div>
+      </div>
+
+      <div class="idea-card" data-category="tokenomics">
+        <div class="idea-top">
+          <div class="idea-number">10</div>
+          <div class="idea-title">Retrograde Airdrop</div>
+          <span class="complexity-badge medium">Medium</span>
+        </div>
+        <div class="idea-desc">Quarterly inverse wealth distribution: the smallest active holders get the largest airdrop share, scaling down to whales. Funded by accumulated transfer taxes. Requires 30-day holding + at least one governance vote to qualify. Algorithmic sybil detection excludes bot clusters.</div>
+        <div class="idea-tags"><span class="tag">airdrop</span><span class="tag">inverse</span><span class="tag">anti-sybil</span></div>
+        <div class="vote-row">
+          <span class="vote-label">Your vote:</span>
+          <div class="vote-options">
+            <button class="vote-btn yes" onclick="vote(this)">YES</button>
+            <button class="vote-btn maybe" onclick="vote(this)">MAYBE</button>
+            <button class="vote-btn no" onclick="vote(this)">PASS</button>
+          </div>
+          <input class="notes-input" placeholder="Notes..." />
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SECTION 2: COMMUNITY & GAMIFICATION -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon community">&#9830;</div>
+      <h2>Gamification &amp; Community</h2>
+      <span class="count">10 ideas</span>
+    </div>
+    <div class="ideas-grid">
+
+      <div class="idea-card" data-category="community">
+        <div class="idea-top">
+          <div class="idea-number">11</div>
+          <div class="idea-title">Jam Session Staking (RPG)</div>
+          <span class="complexity-badge medium">Medium</span>
+        </div>
+        <div class="idea-desc">Stakers pick an instrument role &mdash; Bass (low/steady yield), Drums (medium), Keys (balanced), Guitar (high but volatile with random "broken string" cooldowns). When a full band of 4 different roles forms in a pool, everyone gets a <strong>harmony bonus multiplier</strong>. Cooperative staking as a social game.</div>
+        <div class="idea-tags"><span class="tag">gamified</span><span class="tag">cooperative</span><span class="tag">staking</span></div>
+        <div class="vote-row">
+          <span class="vote-label">Your vote:</span>
+          <div class="vote-options">
+            <button class="vote-btn yes" onclick="vote(this)">YES</button>
+            <button class="vote-btn maybe" onclick="vote(this)">MAYBE</button>
+            <button class="vote-btn no" onclick="vote(this)">PASS</button>
+          </div>
+          <input class="notes-input" placeholder="Notes..." />
+        </div>
+      </div>
+
+      <div class="idea-card" data-category="community">
+        <div class="idea-top">
+          <div class="idea-number">12</div>
+          <div class="idea-title">Vinyl NFT Collection</div>
+          <span class="complexity-badge medium">Medium</span>
+        </div>
+        <div class="idea-desc">Generative album art NFTs that evolve based on on-chain behavior. Transaction frequency affects visual BPM, hold duration changes color warmth (diamond hands = gold, paper hands = blue), staking history adds layers. Complete 12 "tracks" for a rare animated Vinyl with staking boost.</div>
+        <div class="idea-tags"><span class="tag">NFT</span><span class="tag">generative</span><span class="tag">loyalty</span></div>
+        <div class="vote-row">
+          <span class="vote-label">Your vote:</span>
+          <div class="vote-options">
+            <button class="vote-btn yes" onclick="vote(this)">YES</button>
+            <button class="vote-btn maybe" onclick="vote(this)">MAYBE</button>
+            <button class="vote-btn no" onclick="vote(this)">PASS</button>
+          </div>
+          <input class="notes-input" placeholder="Notes..." />
+        </div>
+      </div>
+
+      <div class="idea-card" data-category="community">
+        <div class="idea-top">
+          <div class="idea-number">13</div>
+          <div class="idea-title">Burn Cipher Puzzles</div>
+          <span class="complexity-badge medium">Medium</span>
+        </div>
+        <div class="idea-desc">Monthly cryptographic puzzles released on-chain. Burn 10-100 BJMN to receive a cipher fragment. Fragments are individually useless but collectively decode a solution that unlocks community rewards + lore + commemorative NFT. Whales must burn proportionally more. Bot wallets get scrambled fragments.</div>
+        <div class="idea-tags"><span class="tag">puzzle</span><span class="tag">collaborative</span><span class="tag">anti-bot</span></div>
+        <div class="vote-row">
+          <span class="vote-label">Your vote:</span>
+          <div class="vote-options">
+            <button class="vote-btn yes" onclick="vote(this)">YES</button>
+            <button class="vote-btn maybe" onclick="vote(this)">MAYBE</button>
+            <button class="vote-btn no" onclick="vote(this)">PASS</button>
+          </div>
+          <input class="notes-input" placeholder="Notes..." />
+        </div>
+      </div>
+
+      <div class="idea-card" data-category="community">
+        <div class="idea-top">
+          <div class="idea-number">14</div>
+          <div class="idea-title">Rage Quit Governance</div>
+          <span class="complexity-badge high">High</span>
+        </div>
+        <div class="idea-desc">Quadratic voting for proposals. Disagree with a passed vote? "Rage quit" within 48 hours &mdash; burn governance-staked tokens for a proportional treasury share. You get an "Exit Album" NFT scar: if you re-enter, reduced voting power for 90 days. <strong>Real stakes for real governance.</strong></div>
+        <div class="idea-tags"><span class="tag">governance</span><span class="tag">moloch-DAO</span><span class="tag">quadratic</span></div>
+        <div class="vote-row">
+          <span class="vote-label">Your vote:</span>
+          <div class="vote-options">
+            <button class="vote-btn yes" onclick="vote(this)">YES</button>
+            <button class="vote-btn maybe" onclick="vote(this)">MAYBE</button>
+            <button class="vote-btn no" onclick="vote(this)">PASS</button>
+          </div>
+          <input class="notes-input" placeholder="Notes..." />
+        </div>
+      </div>
+
+      <div class="idea-card" data-category="community">
+        <div class="idea-top">
+          <div class="idea-number">15</div>
+          <div class="idea-title">Lore Engine RPG</div>
+          <span class="complexity-badge high">High</span>
+        </div>
+        <div class="idea-desc">Bi-weekly narrative forks: "BenBJammin is at a crossroads &mdash; Synth Caves or Amp Mountain?" Community votes with staked tokens. The chosen path changes actual token mechanics (temporary yield boost + higher burn, or reduced emissions + new NFT tier). Choices are permanent on-chain lore.</div>
+        <div class="idea-tags"><span class="tag">narrative</span><span class="tag">RPG</span><span class="tag">community-authored</span></div>
+        <div class="vote-row">
+          <span class="vote-label">Your vote:</span>
+          <div class="vote-options">
+            <button class="vote-btn yes" onclick="vote(this)">YES</button>
+            <button class="vote-btn maybe" onclick="vote(this)">MAYBE</button>
+            <button class="vote-btn no" onclick="vote(this)">PASS</button>
+          </div>
+          <input class="notes-input" placeholder="Notes..." />
+        </div>
+      </div>
+
+      <div class="idea-card" data-category="community">
+        <div class="idea-top">
+          <div class="idea-number">16</div>
+          <div class="idea-title">Soundcheck Sandbox</div>
+          <span class="complexity-badge low">Low</span>
+        </div>
+        <div class="idea-desc">Risk-free devnet playground with a faucet for free test-BJMN. Complete a structured tutorial (stake, vote, burn, trade, form a band) to earn a non-transferable "Roadie" badge NFT on mainnet with a permanent small staking bonus. <strong>The tutorial that teaches by doing.</strong></div>
+        <div class="idea-tags"><span class="tag">onboarding</span><span class="tag">education</span><span class="tag">sandbox</span></div>
+        <div class="vote-row">
+          <span class="vote-label">Your vote:</span>
+          <div class="vote-options">
+            <button class="vote-btn yes" onclick="vote(this)">YES</button>
+            <button class="vote-btn maybe" onclick="vote(this)">MAYBE</button>
+            <button class="vote-btn no" onclick="vote(this)">PASS</button>
+          </div>
+          <input class="notes-input" placeholder="Notes..." />
+        </div>
+      </div>
+
+      <div class="idea-card" data-category="community">
+        <div class="idea-top">
+          <div class="idea-number">17</div>
+          <div class="idea-title">Guild Staking Wars</div>
+          <span class="complexity-badge high">High</span>
+        </div>
+        <div class="idea-desc">Form "Bands" (guilds) of 5-50 members. Compete in bi-weekly "Battle of the Bands" scored on stake growth, retention, recruitment, and governance participation. Top 3 earn boosted yield. Bands can challenge each other to "Duels" &mdash; both lock tokens, winner takes a percentage of loser's lock.</div>
+        <div class="idea-tags"><span class="tag">guilds</span><span class="tag">PvP</span><span class="tag">competitive</span></div>
+        <div class="vote-row">
+          <span class="vote-label">Your vote:</span>
+          <div class="vote-options">
+            <button class="vote-btn yes" onclick="vote(this)">YES</button>
+            <button class="vote-btn maybe" onclick="vote(this)">MAYBE</button>
+            <button class="vote-btn no" onclick="vote(this)">PASS</button>
+          </div>
+          <input class="notes-input" placeholder="Notes..." />
+        </div>
+      </div>
+
+      <div class="idea-card" data-category="community">
+        <div class="idea-top">
+          <div class="idea-number">18</div>
+          <div class="idea-title">Dead Drop Burns</div>
+          <span class="complexity-badge medium">Medium</span>
+        </div>
+        <div class="idea-desc">Hidden smart contract functions activate at secret, unannounced burn thresholds. Nobody knows what they unlock until it happens &mdash; a hidden NFT collection, a zero-tax window, a secret staking tier. An on-chain counter hints how close you are, but not what's behind the door. <strong>Exploration-driven tokenomics.</strong></div>
+        <div class="idea-tags"><span class="tag">mystery</span><span class="tag">exploration</span><span class="tag">ARG</span></div>
+        <div class="vote-row">
+          <span class="vote-label">Your vote:</span>
+          <div class="vote-options">
+            <button class="vote-btn yes" onclick="vote(this)">YES</button>
+            <button class="vote-btn maybe" onclick="vote(this)">MAYBE</button>
+            <button class="vote-btn no" onclick="vote(this)">PASS</button>
+          </div>
+          <input class="notes-input" placeholder="Notes..." />
+        </div>
+      </div>
+
+      <div class="idea-card" data-category="community">
+        <div class="idea-top">
+          <div class="idea-number">19</div>
+          <div class="idea-title">Proof of Jam (Cultural Gate)</div>
+          <span class="complexity-badge medium">Medium</span>
+        </div>
+        <div class="idea-desc">Transfer hook enforces a condition: transfers above 10,000 BJMN require the recipient to hold a free "Listener" NFT, minted by interacting with the music platform. You can't receive large amounts without engaging with the culture first. <strong>Soft sybil-resistance through cultural identity.</strong></div>
+        <div class="idea-tags"><span class="tag">transfer-hook</span><span class="tag">culture</span><span class="tag">gating</span></div>
+        <div class="vote-row">
+          <span class="vote-label">Your vote:</span>
+          <div class="vote-options">
+            <button class="vote-btn yes" onclick="vote(this)">YES</button>
+            <button class="vote-btn maybe" onclick="vote(this)">MAYBE</button>
+            <button class="vote-btn no" onclick="vote(this)">PASS</button>
+          </div>
+          <input class="notes-input" placeholder="Notes..." />
+        </div>
+      </div>
+
+      <div class="idea-card" data-category="community">
+        <div class="idea-top">
+          <div class="idea-number">20</div>
+          <div class="idea-title">Tiered Staking + NFT Boosts</div>
+          <span class="complexity-badge medium">Medium</span>
+        </div>
+        <div class="idea-desc">Staking rewards follow a decay curve: 15% APY for days 1-7, 10% for days 7-30, 5% for 30+. "Gold Record" NFTs double rewards, "Platinum Record" triples them. Unstaking early triggers a penalty redistributed to remaining stakers &mdash; a prisoner's dilemma that rewards loyalty.</div>
+        <div class="idea-tags"><span class="tag">staking</span><span class="tag">NFT-boost</span><span class="tag">game-theory</span></div>
+        <div class="vote-row">
+          <span class="vote-label">Your vote:</span>
+          <div class="vote-options">
+            <button class="vote-btn yes" onclick="vote(this)">YES</button>
+            <button class="vote-btn maybe" onclick="vote(this)">MAYBE</button>
+            <button class="vote-btn no" onclick="vote(this)">PASS</button>
+          </div>
+          <input class="notes-input" placeholder="Notes..." />
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SECTION 3: ARCHITECTURE & TOOLING -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon architecture">&#9672;</div>
+      <h2>Architecture &amp; Tooling</h2>
+      <span class="count">10 ideas</span>
+    </div>
+    <div class="ideas-grid">
+
+      <div class="idea-card" data-category="architecture">
+        <div class="idea-top">
+          <div class="idea-number">21</div>
+          <div class="idea-title">Monte Carlo Simulator</div>
+          <span class="complexity-badge medium">Medium</span>
+        </div>
+        <div class="idea-desc">Off-chain simulation framework that models BJMN supply dynamics over thousands of randomized scenarios &mdash; varying transfer volume, burn rate, minting schedules, and staking participation. Produces probability distributions to empirically test whether parameters are actually deflationary.</div>
+        <div class="idea-tags"><span class="tag">simulation</span><span class="tag">analytics</span><span class="tag">parameter-tuning</span></div>
+        <div class="vote-row">
+          <span class="vote-label">Your vote:</span>
+          <div class="vote-options">
+            <button class="vote-btn yes" onclick="vote(this)">YES</button>
+            <button class="vote-btn maybe" onclick="vote(this)">MAYBE</button>
+            <button class="vote-btn no" onclick="vote(this)">PASS</button>
+          </div>
+          <input class="notes-input" placeholder="Notes..." />
+        </div>
+      </div>
+
+      <div class="idea-card" data-category="architecture">
+        <div class="idea-top">
+          <div class="idea-number">22</div>
+          <div class="idea-title">Chaos Testing Harness</div>
+          <span class="complexity-badge medium">Medium</span>
+        </div>
+        <div class="idea-desc">Adversarial test framework that injects: zero-amount transfers, MAX_U64 values, concurrent conflicting transactions, authority rotation mid-tx, and dust amounts that round to zero tax. Property-based testing to find the bugs unit tests miss &mdash; especially in tax rounding math.</div>
+        <div class="idea-tags"><span class="tag">testing</span><span class="tag">fuzzing</span><span class="tag">security</span></div>
+        <div class="vote-row">
+          <span class="vote-label">Your vote:</span>
+          <div class="vote-options">
+            <button class="vote-btn yes" onclick="vote(this)">YES</button>
+            <button class="vote-btn maybe" onclick="vote(this)">MAYBE</button>
+            <button class="vote-btn no" onclick="vote(this)">PASS</button>
+          </div>
+          <input class="notes-input" placeholder="Notes..." />
+        </div>
+      </div>
+
+      <div class="idea-card" data-category="architecture">
+        <div class="idea-top">
+          <div class="idea-number">23</div>
+          <div class="idea-title">Interactive CLI Wizard</div>
+          <span class="complexity-badge low">Low</span>
+        </div>
+        <div class="idea-desc">TUI-based CLI with guided setup for new developers, batch operations (mint to 50 addresses from CSV), and dry-run simulation showing exactly which accounts change and what state diffs occur before signing. <strong>Developer experience as a moat.</strong></div>
+        <div class="idea-tags"><span class="tag">CLI</span><span class="tag">DX</span><span class="tag">batch-ops</span></div>
+        <div class="vote-row">
+          <span class="vote-label">Your vote:</span>
+          <div class="vote-options">
+            <button class="vote-btn yes" onclick="vote(this)">YES</button>
+            <button class="vote-btn maybe" onclick="vote(this)">MAYBE</button>
+            <button class="vote-btn no" onclick="vote(this)">PASS</button>
+          </div>
+          <input class="notes-input" placeholder="Notes..." />
+        </div>
+      </div>
+
+      <div class="idea-card" data-category="architecture">
+        <div class="idea-top">
+          <div class="idea-number">24</div>
+          <div class="idea-title">Real-Time Supply Dashboard</div>
+          <span class="complexity-badge medium">Medium</span>
+        </div>
+        <div class="idea-desc">Live dashboard (web or terminal) subscribing to on-chain WebSocket events: circulating supply, tax collected per epoch, burn-to-mint ratio over time, staking TVL, APY, and a filtered BJMN transaction feed. <strong>Turn your devnet into a living system you can observe.</strong></div>
+        <div class="idea-tags"><span class="tag">dashboard</span><span class="tag">observability</span><span class="tag">real-time</span></div>
+        <div class="vote-row">
+          <span class="vote-label">Your vote:</span>
+          <div class="vote-options">
+            <button class="vote-btn yes" onclick="vote(this)">YES</button>
+            <button class="vote-btn maybe" onclick="vote(this)">MAYBE</button>
+            <button class="vote-btn no" onclick="vote(this)">PASS</button>
+          </div>
+          <input class="notes-input" placeholder="Notes..." />
+        </div>
+      </div>
+
+      <div class="idea-card" data-category="architecture">
+        <div class="idea-top">
+          <div class="idea-number">25</div>
+          <div class="idea-title">Multisig + Timelock + Pause</div>
+          <span class="complexity-badge medium">Medium</span>
+        </div>
+        <div class="idea-desc">Multi-program architecture where mint, freeze, and fee authorities are controlled through a multisig with configurable timelock. Emergency pause: single key triggers freeze (fast), but unpause requires multisig consensus (slow). The most important security pattern for any real token.</div>
+        <div class="idea-tags"><span class="tag">security</span><span class="tag">multisig</span><span class="tag">authority</span></div>
+        <div class="vote-row">
+          <span class="vote-label">Your vote:</span>
+          <div class="vote-options">
+            <button class="vote-btn yes" onclick="vote(this)">YES</button>
+            <button class="vote-btn maybe" onclick="vote(this)">MAYBE</button>
+            <button class="vote-btn no" onclick="vote(this)">PASS</button>
+          </div>
+          <input class="notes-input" placeholder="Notes..." />
+        </div>
+      </div>
+
+      <div class="idea-card" data-category="architecture">
+        <div class="idea-top">
+          <div class="idea-number">26</div>
+          <div class="idea-title">CI/CD for Anchor Programs</div>
+          <span class="complexity-badge medium">Medium</span>
+        </div>
+        <div class="idea-desc">GitHub Actions pipeline: compile (fail on warnings), run chaos tests, deploy to throwaway devnet keypair, integration test against live deployment, IDL diff against previous version to catch breaking changes, and supply-impact summary comment on every PR.</div>
+        <div class="idea-tags"><span class="tag">CI/CD</span><span class="tag">automation</span><span class="tag">IDL-diff</span></div>
+        <div class="vote-row">
+          <span class="vote-label">Your vote:</span>
+          <div class="vote-options">
+            <button class="vote-btn yes" onclick="vote(this)">YES</button>
+            <button class="vote-btn maybe" onclick="vote(this)">MAYBE</button>
+            <button class="vote-btn no" onclick="vote(this)">PASS</button>
+          </div>
+          <input class="notes-input" placeholder="Notes..." />
+        </div>
+      </div>
+
+      <div class="idea-card" data-category="architecture">
+        <div class="idea-top">
+          <div class="idea-number">27</div>
+          <div class="idea-title">Auto-Compounding Bot</div>
+          <span class="complexity-badge low">Low</span>
+        </div>
+        <div class="idea-desc">Bot framework that monitors staking rewards and auto-claims/restakes based on pluggable strategies: compound every N epochs, compound above a threshold, or only when gas is below a % of rewards. Exposes a strategy interface for custom logic.</div>
+        <div class="idea-tags"><span class="tag">bot</span><span class="tag">auto-compound</span><span class="tag">yield</span></div>
+        <div class="vote-row">
+          <span class="vote-label">Your vote:</span>
+          <div class="vote-options">
+            <button class="vote-btn yes" onclick="vote(this)">YES</button>
+            <button class="vote-btn maybe" onclick="vote(this)">MAYBE</button>
+            <button class="vote-btn no" onclick="vote(this)">PASS</button>
+          </div>
+          <input class="notes-input" placeholder="Notes..." />
+        </div>
+      </div>
+
+      <div class="idea-card" data-category="architecture">
+        <div class="idea-top">
+          <div class="idea-number">28</div>
+          <div class="idea-title">TypeScript SDK + Simulation Mode</div>
+          <span class="complexity-badge medium">Medium</span>
+        </div>
+        <div class="idea-desc"><strong>@benjammin/sdk</strong> &mdash; wraps all BJMN operations with a clean API. Includes a simulation mode that dry-runs every transaction through Solana's simulateTransaction, returning compute units, account state diffs, tax amounts, and success/failure predictions before signing.</div>
+        <div class="idea-tags"><span class="tag">SDK</span><span class="tag">TypeScript</span><span class="tag">simulation</span></div>
+        <div class="vote-row">
+          <span class="vote-label">Your vote:</span>
+          <div class="vote-options">
+            <button class="vote-btn yes" onclick="vote(this)">YES</button>
+            <button class="vote-btn maybe" onclick="vote(this)">MAYBE</button>
+            <button class="vote-btn no" onclick="vote(this)">PASS</button>
+          </div>
+          <input class="notes-input" placeholder="Notes..." />
+        </div>
+      </div>
+
+      <div class="idea-card" data-category="architecture">
+        <div class="idea-top">
+          <div class="idea-number">29</div>
+          <div class="idea-title">VRF Random Reward Multiplier</div>
+          <span class="complexity-badge high">High</span>
+        </div>
+        <div class="idea-desc">On-chain verifiable random function (Switchboard VRF or custom commit-reveal) adds a 0.5x-2.0x multiplier to staking rewards each epoch. Creates variable APY that incentivizes longer staking (variance averages out over time). All VRF results stored on-chain for full auditability.</div>
+        <div class="idea-tags"><span class="tag">VRF</span><span class="tag">randomness</span><span class="tag">oracle</span></div>
+        <div class="vote-row">
+          <span class="vote-label">Your vote:</span>
+          <div class="vote-options">
+            <button class="vote-btn yes" onclick="vote(this)">YES</button>
+            <button class="vote-btn maybe" onclick="vote(this)">MAYBE</button>
+            <button class="vote-btn no" onclick="vote(this)">PASS</button>
+          </div>
+          <input class="notes-input" placeholder="Notes..." />
+        </div>
+      </div>
+
+      <div class="idea-card" data-category="architecture">
+        <div class="idea-top">
+          <div class="idea-number">30</div>
+          <div class="idea-title">Modular Multi-Program Architecture</div>
+          <span class="complexity-badge medium">Medium</span>
+        </div>
+        <div class="idea-desc">Split the system into independently upgradeable programs: core token ops, staking, fee distribution, admin/governance. Each deployed behind Anchor's upgradeable pattern. An on-chain IDL registry PDA stores version and interface hash so consumers detect breaking changes at runtime.</div>
+        <div class="idea-tags"><span class="tag">architecture</span><span class="tag">modular</span><span class="tag">upgradeable</span></div>
+        <div class="vote-row">
+          <span class="vote-label">Your vote:</span>
+          <div class="vote-options">
+            <button class="vote-btn yes" onclick="vote(this)">YES</button>
+            <button class="vote-btn maybe" onclick="vote(this)">MAYBE</button>
+            <button class="vote-btn no" onclick="vote(this)">PASS</button>
+          </div>
+          <input class="notes-input" placeholder="Notes..." />
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="summary-section">
+    <h2>Your Overall Feedback</h2>
+    <div class="summary-grid">
+      <div class="summary-box">
+        <h3>Top 5 Favorites (by number)</h3>
+        <textarea class="summary-textarea" placeholder="e.g., 4, 11, 18, 24, 28"></textarea>
+      </div>
+      <div class="summary-box">
+        <h3>Hard No's (kill these)</h3>
+        <textarea class="summary-textarea" placeholder="e.g., 8 - too complex for now"></textarea>
+      </div>
+      <div class="summary-box">
+        <h3>New Ideas / Modifications</h3>
+        <textarea class="summary-textarea" placeholder="Any ideas this sparked? Changes to existing ideas?"></textarea>
+      </div>
+      <div class="summary-box">
+        <h3>Overall Vibe / Direction</h3>
+        <textarea class="summary-textarea" placeholder="What excites you most? What direction should BJMN lean into?"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <span class="brand">$BJMN</span> &middot; BenBJammin Token Ideation &middot; Solana Devnet &middot; 2026
+  </div>
+
+</div>
+
+<script>
+  function vote(btn) {
+    const row = btn.closest('.vote-row');
+    row.querySelectorAll('.vote-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+</script>
+</body>
+</html>
